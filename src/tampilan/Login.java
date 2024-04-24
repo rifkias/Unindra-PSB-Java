@@ -5,13 +5,20 @@
  */
 package tampilan;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import javax.swing.JOptionPane;
+import koneksi.koneksi;
 
 /**
  *
  * @author lincbp
  */
 public class Login extends javax.swing.JFrame {
+    private Connection conn = new koneksi().connect();
     private final String DATE_FORMAT = "yyyy-MM-dd";
     private final SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
     /**
@@ -181,6 +188,11 @@ public class Login extends javax.swing.JFrame {
         jLabel3.setText("Password");
 
         jButton1.setText("Login");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         btnLoginToRegister.setText("Daftar");
         btnLoginToRegister.addActionListener(new java.awt.event.ActionListener() {
@@ -313,8 +325,20 @@ public class Login extends javax.swing.JFrame {
         jLabel19.setFont(new java.awt.Font("Source Sans Pro", 0, 14)); // NOI18N
         jLabel19.setText("NISN");
 
+        registerNisn.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                registerNisnKeyTyped(evt);
+            }
+        });
+
         jLabel20.setFont(new java.awt.Font("Source Sans Pro", 0, 14)); // NOI18N
         jLabel20.setText("Nomor Telpon");
+
+        registerNoTel.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                registerNoTelKeyTyped(evt);
+            }
+        });
 
         jLabel21.setFont(new java.awt.Font("Source Sans Pro", 0, 14)); // NOI18N
         jLabel21.setText("Email");
@@ -552,7 +576,7 @@ public class Login extends javax.swing.JFrame {
         // TODO add your handling code here:
         this.moveToSiswaLogin();
     }//GEN-LAST:event_btnRegisterBackActionPerformed
-
+    
     private void btnsaveRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsaveRegisterActionPerformed
         // TODO add your handling code here:
         String nama = registerName.getText();
@@ -565,7 +589,8 @@ public class Login extends javax.swing.JFrame {
         String jenisKel = "";
         if(registerJk1.isSelected()){
             jenisKel = "Laki - Laki";
-        }else{
+        }
+        if(registerJk2.isSelected()){
             jenisKel = "Perempuan";
         }
         
@@ -573,19 +598,118 @@ public class Login extends javax.swing.JFrame {
         
         if(registerGolDarA.isSelected()){
             golDar = "A";
-        }else if(registerGolDarAB.isSelected()){
+        }
+        if(registerGolDarAB.isSelected()){
             golDar =  "AB";
-        }else if(registerGolDarB.isSelected()){
+        }
+        if(registerGolDarB.isSelected()){
             golDar = "B";
-        }else{
-            golDar = "O";
         }
         
+        if(registerGolDarO.isSelected()){
+            golDar = "O";
+        }
+        boolean checkNisn = checknisn(nisn);
+        
+        if(checkNisn){
+            String sql = "INSERT INTO siswa (nama, jenis_kelamin, agama, golongan_darah, tanggal_lahir, nisn, tempat_lahir, nomor_telpon, email) VALUES (?,?,?,?,?,?,?,?,?)";
+            try {
+                PreparedStatement stat = conn.prepareStatement(sql);
+                stat.setString(1, nama);
+                stat.setString(2, jenisKel);
+                stat.setString(3, agama);
+                stat.setString(4, golDar);
+                stat.setDate(5, new java.sql.Date(dob.getTime()));
+                stat.setString(6, nisn);
+                stat.setString(7, tempatLahir);
+                stat.setString(8, noTelp);
+                stat.setString(9, email);
+
+                stat.executeUpdate();
+                JOptionPane.showMessageDialog(null, "Pendaftaran Berhasil");
+                reset();
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "Data Gagal Disimpan: " + e.getMessage());
+            }
+        }
         
         
         
     }//GEN-LAST:event_btnsaveRegisterActionPerformed
 
+    private void registerNoTelKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_registerNoTelKeyTyped
+        // TODO add your handling code here:
+        char enter = evt.getKeyChar();
+        if(!(Character.isDigit(enter))){
+            evt.consume();
+        }
+    }//GEN-LAST:event_registerNoTelKeyTyped
+
+    private void registerNisnKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_registerNisnKeyTyped
+        // TODO add your handling code here:
+        char enter = evt.getKeyChar();
+        if(!(Character.isDigit(enter))){
+            evt.consume();
+        }
+    }//GEN-LAST:event_registerNisnKeyTyped
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        String username = usernameInputSiswa.getText();
+        String password = passwordInputSiswa.getText();
+        boolean checkLogin = loginSiswa(username, password);
+        if(checkLogin){
+            JOptionPane.showMessageDialog(null, "Login Berhasil");
+            new MainMenu().setVisible(true);
+            this.setVisible(false);
+        }else{
+            JOptionPane.showMessageDialog(null, "Login Gagal");
+        }
+        
+        
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
+    
+    public boolean loginSiswa(String username, String password){
+        boolean res = false;
+        String sql = "SELECT * FROM siswa WHERE nisn='"+username+"' AND tanggal_lahir='"+password+"'";
+         try{
+            java.sql.Statement stat = conn.createStatement();
+            ResultSet rs = stat.executeQuery(sql);
+            if(rs.next()){
+                res = true;
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return res;
+    }
+    public boolean checknisn(String nisn){
+        boolean res = true;
+        String sql = "SELECT * FROM siswa WHERE nisn ='"+nisn+"'";
+        try{
+            java.sql.Statement stat = conn.createStatement();
+            ResultSet rs = stat.executeQuery(sql);
+            if(rs.next()){
+                res = false;
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        
+        return res;
+    }
+    
+    public void reset(){
+        registerAgama.setText("");
+        registerTempatLahir.setText("");
+        registerName.setText("");
+        registerNisn.setText("");
+        registerNoTel.setText("");
+        registerEmail.setText("");
+        btngGd.clearSelection();
+        btngJk.clearSelection();
+    }
     /**
      * @param args the command line arguments
      */
