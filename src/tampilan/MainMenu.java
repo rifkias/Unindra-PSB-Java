@@ -12,14 +12,24 @@ import javax.swing.JFrame;
  * @author lincbp
  */
 public class MainMenu extends javax.swing.JFrame {
-
+    private String loginType;
+    private int loginId;    
     /**
      * Creates new form MainMenu
      */
-    public MainMenu() {
+    public MainMenu(String LoginType,int LoginId) {
         initComponents();
-        
+        loginType = LoginType;
+        loginId = LoginId;
         setLocationRelativeTo(this);
+        
+        if(loginType.equals("siswa")){
+            panelAdmin.setVisible(false);
+        }
+        
+        if(loginType.equals("admin")){
+            panelSiswa.setVisible(false);
+        }
 //        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
 
@@ -32,24 +42,26 @@ public class MainMenu extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        konten = new javax.swing.JPanel();
         header = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        Navigation = new javax.swing.JPanel();
-        btnSiswa = new javax.swing.JButton();
-        btnJurusan = new javax.swing.JButton();
-        btnAdmin = new javax.swing.JButton();
-        btnEskul = new javax.swing.JButton();
+        panelAdmin = new javax.swing.JPanel();
         btnPendaftaran = new javax.swing.JButton();
+        btnEskul = new javax.swing.JButton();
+        btnAdmin = new javax.swing.JButton();
+        btnJurusan = new javax.swing.JButton();
+        btnSiswa = new javax.swing.JButton();
         btnLogout = new javax.swing.JButton();
+        panelSiswa = new javax.swing.JPanel();
+        btnDataPendaftaran = new javax.swing.JButton();
+        btnNilai = new javax.swing.JButton();
+        btnNilai1 = new javax.swing.JButton();
+        konten = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(884, 800));
+        setPreferredSize(new java.awt.Dimension(984, 800));
 
-        konten.setBackground(new java.awt.Color(255, 255, 255));
-        konten.setLayout(new java.awt.BorderLayout());
-        getContentPane().add(konten, java.awt.BorderLayout.CENTER);
+        header.setPreferredSize(new java.awt.Dimension(1016, 100));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -74,25 +86,10 @@ public class MainMenu extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        btnSiswa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Users.png"))); // NOI18N
-        btnSiswa.setText("Siswa");
-        btnSiswa.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnSiswa.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-
-        btnJurusan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Book_1.png"))); // NOI18N
-        btnJurusan.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnJurusan.setLabel("Jurusan");
-        btnJurusan.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnJurusan.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnJurusanActionPerformed(evt);
-            }
-        });
-
-        btnAdmin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Customer.png"))); // NOI18N
-        btnAdmin.setText("Admin");
-        btnAdmin.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnAdmin.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnPendaftaran.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Address Book.png"))); // NOI18N
+        btnPendaftaran.setText("Pendaftaran");
+        btnPendaftaran.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnPendaftaran.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
         btnEskul.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Medal First Place.png"))); // NOI18N
         btnEskul.setText("Eskul");
@@ -104,45 +101,99 @@ public class MainMenu extends javax.swing.JFrame {
             }
         });
 
-        btnPendaftaran.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Address Book.png"))); // NOI18N
-        btnPendaftaran.setText("Pendaftaran");
-        btnPendaftaran.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnPendaftaran.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnAdmin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Customer.png"))); // NOI18N
+        btnAdmin.setText("Admin");
+        btnAdmin.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnAdmin.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnAdmin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAdminActionPerformed(evt);
+            }
+        });
+
+        btnJurusan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Book_1.png"))); // NOI18N
+        btnJurusan.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnJurusan.setLabel("Jurusan");
+        btnJurusan.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnJurusan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnJurusanActionPerformed(evt);
+            }
+        });
+
+        btnSiswa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Users.png"))); // NOI18N
+        btnSiswa.setText("Siswa");
+        btnSiswa.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnSiswa.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+
+        javax.swing.GroupLayout panelAdminLayout = new javax.swing.GroupLayout(panelAdmin);
+        panelAdmin.setLayout(panelAdminLayout);
+        panelAdminLayout.setHorizontalGroup(
+            panelAdminLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelAdminLayout.createSequentialGroup()
+                .addGap(6, 6, 6)
+                .addComponent(btnSiswa, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnJurusan)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnAdmin)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnEskul)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnPendaftaran)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        panelAdminLayout.setVerticalGroup(
+            panelAdminLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(btnEskul, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+            .addComponent(btnAdmin, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnJurusan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnSiswa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnPendaftaran, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
 
         btnLogout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Close.png"))); // NOI18N
         btnLogout.setText("Logout");
         btnLogout.setHideActionText(true);
         btnLogout.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnLogout.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnLogout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLogoutActionPerformed(evt);
+            }
+        });
 
-        javax.swing.GroupLayout NavigationLayout = new javax.swing.GroupLayout(Navigation);
-        Navigation.setLayout(NavigationLayout);
-        NavigationLayout.setHorizontalGroup(
-            NavigationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(NavigationLayout.createSequentialGroup()
-                .addComponent(btnSiswa, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(2, 2, 2)
-                .addComponent(btnJurusan)
-                .addGap(2, 2, 2)
-                .addComponent(btnAdmin)
-                .addGap(2, 2, 2)
-                .addComponent(btnEskul)
+        btnDataPendaftaran.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Address Book.png"))); // NOI18N
+        btnDataPendaftaran.setText("Data Pendaftaran");
+        btnDataPendaftaran.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnDataPendaftaran.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+
+        btnNilai.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Documents.png"))); // NOI18N
+        btnNilai.setText("Nilai");
+        btnNilai.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnNilai.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+
+        btnNilai1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Cash.png"))); // NOI18N
+        btnNilai1.setText("Tagihan");
+        btnNilai1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnNilai1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+
+        javax.swing.GroupLayout panelSiswaLayout = new javax.swing.GroupLayout(panelSiswa);
+        panelSiswa.setLayout(panelSiswaLayout);
+        panelSiswaLayout.setHorizontalGroup(
+            panelSiswaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelSiswaLayout.createSequentialGroup()
+                .addComponent(btnDataPendaftaran)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnPendaftaran)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 151, Short.MAX_VALUE)
-                .addComponent(btnLogout))
+                .addComponent(btnNilai, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnNilai1, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
-        NavigationLayout.setVerticalGroup(
-            NavigationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(NavigationLayout.createSequentialGroup()
-                .addGroup(NavigationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(btnJurusan, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
-                    .addComponent(btnEskul, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnAdmin, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnPendaftaran, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnSiswa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnLogout, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(0, 0, Short.MAX_VALUE))
+        panelSiswaLayout.setVerticalGroup(
+            panelSiswaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(btnDataPendaftaran, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnNilai, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnNilai1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout headerLayout = new javax.swing.GroupLayout(header);
@@ -152,30 +203,45 @@ public class MainMenu extends javax.swing.JFrame {
             .addGroup(headerLayout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Navigation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(panelAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(panelSiswa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnLogout))
         );
         headerLayout.setVerticalGroup(
             headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(headerLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addGroup(headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(Navigation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+            .addComponent(panelAdmin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnLogout, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panelSiswa, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         getContentPane().add(header, java.awt.BorderLayout.PAGE_START);
+
+        konten.setBackground(new java.awt.Color(255, 255, 255));
+        konten.setLayout(new java.awt.BorderLayout());
+        getContentPane().add(konten, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnJurusanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnJurusanActionPerformed
         // TODO add your handling code here:
-        
+
         konten.removeAll();
         konten.add(new masterJurusan());
         konten.repaint();
         konten.revalidate();
     }//GEN-LAST:event_btnJurusanActionPerformed
+
+    private void btnAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdminActionPerformed
+        // TODO add your handling code here:
+        konten.removeAll();
+        konten.add(new masterAdmin());
+        konten.repaint();
+        konten.revalidate();
+    }//GEN-LAST:event_btnAdminActionPerformed
 
     private void btnEskulActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEskulActionPerformed
         // TODO add your handling code here:
@@ -185,6 +251,15 @@ public class MainMenu extends javax.swing.JFrame {
         konten.revalidate();
     }//GEN-LAST:event_btnEskulActionPerformed
 
+    private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        new Login().setVisible(true);
+    }//GEN-LAST:event_btnLogoutActionPerformed
+    
+    public void test(){
+        System.out.println("masook");
+    }
     /**
      * @param args the command line arguments
      */
@@ -215,22 +290,26 @@ public class MainMenu extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MainMenu().setVisible(true);
+                new MainMenu("admin",1).setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel Navigation;
     private javax.swing.JButton btnAdmin;
+    private javax.swing.JButton btnDataPendaftaran;
     private javax.swing.JButton btnEskul;
     private javax.swing.JButton btnJurusan;
     private javax.swing.JButton btnLogout;
+    private javax.swing.JButton btnNilai;
+    private javax.swing.JButton btnNilai1;
     private javax.swing.JButton btnPendaftaran;
     private javax.swing.JButton btnSiswa;
     private javax.swing.JPanel header;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel konten;
+    private javax.swing.JPanel panelAdmin;
+    private javax.swing.JPanel panelSiswa;
     // End of variables declaration//GEN-END:variables
 }
