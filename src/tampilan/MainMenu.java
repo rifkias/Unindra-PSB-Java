@@ -18,7 +18,9 @@ public class MainMenu extends javax.swing.JFrame {
      */
     public MainMenu() {
         initComponents();
-        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        
+        setLocationRelativeTo(this);
+//        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
 
     /**
@@ -43,6 +45,7 @@ public class MainMenu extends javax.swing.JFrame {
         btnLogout = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(884, 800));
 
         konten.setBackground(new java.awt.Color(255, 255, 255));
         konten.setLayout(new java.awt.BorderLayout());
@@ -95,6 +98,11 @@ public class MainMenu extends javax.swing.JFrame {
         btnEskul.setText("Eskul");
         btnEskul.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnEskul.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnEskul.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEskulActionPerformed(evt);
+            }
+        });
 
         btnPendaftaran.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Address Book.png"))); // NOI18N
         btnPendaftaran.setText("Pendaftaran");
@@ -168,6 +176,14 @@ public class MainMenu extends javax.swing.JFrame {
         konten.repaint();
         konten.revalidate();
     }//GEN-LAST:event_btnJurusanActionPerformed
+
+    private void btnEskulActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEskulActionPerformed
+        // TODO add your handling code here:
+        konten.removeAll();
+        konten.add(new masterEskul());
+        konten.repaint();
+        konten.revalidate();
+    }//GEN-LAST:event_btnEskulActionPerformed
 
     /**
      * @param args the command line arguments
