@@ -44,7 +44,7 @@ public class Login extends javax.swing.JFrame {
         contentPanel.removeAll();
         contentPanel.repaint();
         contentPanel.revalidate();
-        
+        // Login Siswa
         contentPanel.add(siswaLogin);
         contentPanel.repaint();
         contentPanel.revalidate();
@@ -489,6 +489,11 @@ public class Login extends javax.swing.JFrame {
         jLabel10.setText("Password");
 
         jButton2.setText("Login");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jLabel13.setFont(new java.awt.Font("Source Sans Pro", 1, 24)); // NOI18N
         jLabel13.setText("Login Admin");
@@ -657,10 +662,10 @@ public class Login extends javax.swing.JFrame {
         // TODO add your handling code here:
         String username = usernameInputSiswa.getText();
         String password = passwordInputSiswa.getText();
-        boolean checkLogin = loginSiswa(username, password);
-        if(checkLogin){
+        int checkLogin = loginSiswa(username, password);
+        if(checkLogin > 0){
             JOptionPane.showMessageDialog(null, "Login Berhasil");
-            new MainMenu().setVisible(true);
+            new MainMenu("siswa",checkLogin).setVisible(true);
             this.setVisible(false);
         }else{
             JOptionPane.showMessageDialog(null, "Login Gagal");
@@ -669,21 +674,65 @@ public class Login extends javax.swing.JFrame {
         
         
     }//GEN-LAST:event_jButton1ActionPerformed
-    
-    public boolean loginSiswa(String username, String password){
-        boolean res = false;
-        String sql = "SELECT * FROM siswa WHERE nisn='"+username+"' AND tanggal_lahir='"+password+"'";
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        String username = usernameInputAdmin.getText();
+        String password = passwordInputAdmin.getText();
+        int checkLogin = loginAdmin(username, password);
+        
+        if(checkLogin > 0){
+            JOptionPane.showMessageDialog(null, "Login Berhasil");
+            new MainMenu("admin", checkLogin).setVisible(true);
+            this.setVisible(false);
+        }else{
+            JOptionPane.showMessageDialog(null, "Login Gagal");
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+   public int loginSiswa(String username,String password){
+       int res = 0;
+       String sql = "SELECT * FROM siswa WHERE nisn='"+username+"' AND tanggal_lahir='"+password+"'";
          try{
             java.sql.Statement stat = conn.createStatement();
             ResultSet rs = stat.executeQuery(sql);
             if(rs.next()){
-                res = true;
+                res = rs.getInt("id_siswa");
             }
         }catch (SQLException e){
             e.printStackTrace();
         }
-        return res;
-    }
+       return res;
+   }
+   
+   public int loginAdmin(String username,String password){
+       int res = 0;
+       String sql = "SELECT * FROM admin WHERE username='"+username+"' AND password='"+password+"'";
+         try{
+            java.sql.Statement stat = conn.createStatement();
+            ResultSet rs = stat.executeQuery(sql);
+            if(rs.next()){
+                res = rs.getInt("id_user");
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+       return res;
+   }
+    
+//    public boolean loginSiswa(String username, String password){
+//        boolean res = false;
+//        String sql = "SELECT * FROM siswa WHERE nisn='"+username+"' AND tanggal_lahir='"+password+"'";
+//         try{
+//            java.sql.Statement stat = conn.createStatement();
+//            ResultSet rs = stat.executeQuery(sql);
+//            if(rs.next()){
+//                res = true;
+//            }
+//        }catch (SQLException e){
+//            e.printStackTrace();
+//        }
+//        return res;
+//    }
     public boolean checknisn(String nisn){
         boolean res = true;
         String sql = "SELECT * FROM siswa WHERE nisn ='"+nisn+"'";
