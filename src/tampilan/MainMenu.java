@@ -5,7 +5,11 @@
  */
 package tampilan;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.swing.JFrame;
+import koneksi.koneksi;
 
 /**
  *
@@ -14,6 +18,9 @@ import javax.swing.JFrame;
 public class MainMenu extends javax.swing.JFrame {
     private String loginType;
     private int loginId;    
+    private Connection conn = new koneksi().connect();
+    private int idPendaftaran = 0;
+    private String statusPendaftaran;
     /**
      * Creates new form MainMenu
      */
@@ -25,6 +32,8 @@ public class MainMenu extends javax.swing.JFrame {
         
         if(loginType.equals("siswa")){
             panelAdmin.setVisible(false);
+            queryCheckPendaftaran();
+            initSiswaMenu();
         }
         
         if(loginType.equals("admin")){
@@ -55,12 +64,13 @@ public class MainMenu extends javax.swing.JFrame {
         panelSiswa = new javax.swing.JPanel();
         btnDataPendaftaran = new javax.swing.JButton();
         btnNilai = new javax.swing.JButton();
-        btnNilai1 = new javax.swing.JButton();
+        btnTagihan = new javax.swing.JButton();
         konten = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(984, 800));
 
+        header.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         header.setPreferredSize(new java.awt.Dimension(1016, 100));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -125,6 +135,11 @@ public class MainMenu extends javax.swing.JFrame {
         btnSiswa.setText("Siswa");
         btnSiswa.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnSiswa.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnSiswa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSiswaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelAdminLayout = new javax.swing.GroupLayout(panelAdmin);
         panelAdmin.setLayout(panelAdminLayout);
@@ -145,7 +160,7 @@ public class MainMenu extends javax.swing.JFrame {
         );
         panelAdminLayout.setVerticalGroup(
             panelAdminLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(btnEskul, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+            .addComponent(btnEskul, javax.swing.GroupLayout.DEFAULT_SIZE, 98, Short.MAX_VALUE)
             .addComponent(btnAdmin, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btnJurusan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btnSiswa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -167,16 +182,21 @@ public class MainMenu extends javax.swing.JFrame {
         btnDataPendaftaran.setText("Data Pendaftaran");
         btnDataPendaftaran.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnDataPendaftaran.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnDataPendaftaran.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDataPendaftaranActionPerformed(evt);
+            }
+        });
 
         btnNilai.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Documents.png"))); // NOI18N
         btnNilai.setText("Nilai");
         btnNilai.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnNilai.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
-        btnNilai1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Cash.png"))); // NOI18N
-        btnNilai1.setText("Tagihan");
-        btnNilai1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnNilai1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnTagihan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Cash.png"))); // NOI18N
+        btnTagihan.setText("Tagihan");
+        btnTagihan.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnTagihan.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
         javax.swing.GroupLayout panelSiswaLayout = new javax.swing.GroupLayout(panelSiswa);
         panelSiswa.setLayout(panelSiswaLayout);
@@ -187,13 +207,13 @@ public class MainMenu extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnNilai, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnNilai1, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(btnTagihan, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         panelSiswaLayout.setVerticalGroup(
             panelSiswaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(btnDataPendaftaran, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btnNilai, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(btnNilai1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnTagihan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout headerLayout = new javax.swing.GroupLayout(header);
@@ -256,7 +276,51 @@ public class MainMenu extends javax.swing.JFrame {
         this.setVisible(false);
         new Login().setVisible(true);
     }//GEN-LAST:event_btnLogoutActionPerformed
+
+    private void btnSiswaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiswaActionPerformed
+        // TODO add your handling code here:
+        konten.removeAll();
+        konten.add(new masterSiswa());
+        konten.repaint();
+        konten.revalidate();
+    }//GEN-LAST:event_btnSiswaActionPerformed
+
+    private void btnDataPendaftaranActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDataPendaftaranActionPerformed
+        // TODO add your handling code here:
+        konten.removeAll();
+        konten.add(new pendaftaranSiswa(loginId));
+        konten.repaint();
+        konten.revalidate();
+    }//GEN-LAST:event_btnDataPendaftaranActionPerformed
+    public boolean queryCheckPendaftaran(){
+        
+        boolean res = false;
+        String sql = "SELECT * FROM pendaftaran p WHERE id_siswa = '"+ loginId +"' limit 1";
+        
+        try{
+            java.sql.Statement stat = conn.createStatement();
+            ResultSet hasil = stat.executeQuery(sql);
+            ResultSet rs = stat.executeQuery(sql);
+            if(rs.next()){
+                statusPendaftaran = rs.getString("status");
+                idPendaftaran = rs.getInt("id_pendaftaran");
+                res = true;
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        
+        return res;
+    }
     
+    public void initSiswaMenu(){
+        if(idPendaftaran == 0){
+            btnNilai.setVisible(false);
+            btnTagihan.setVisible(false);
+        }else{
+            btnNilai.setVisible(true);
+        }
+    }
     public void test(){
         System.out.println("masook");
     }
@@ -302,9 +366,9 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JButton btnJurusan;
     private javax.swing.JButton btnLogout;
     private javax.swing.JButton btnNilai;
-    private javax.swing.JButton btnNilai1;
     private javax.swing.JButton btnPendaftaran;
     private javax.swing.JButton btnSiswa;
+    private javax.swing.JButton btnTagihan;
     private javax.swing.JPanel header;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;

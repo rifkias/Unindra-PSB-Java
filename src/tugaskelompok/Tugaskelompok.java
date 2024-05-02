@@ -5,6 +5,8 @@
  */
 package tugaskelompok;
 
+import tampilan.MainMenu;
+
 /**
  *
  * @author ammar
@@ -16,6 +18,7 @@ public class Tugaskelompok {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        new MainMenu("siswa", 1).setVisible(true);;
     }
     
 }
