@@ -21,7 +21,7 @@ import koneksi.koneksi;
  *
  * @author lincbp
  */
-public class masterAdmin extends javax.swing.JPanel {
+public class masterAdmin2 extends javax.swing.JPanel {
     private Connection conn = new koneksi().connect();
     private DefaultTableModel tabmode;
     private int selectedId;
@@ -30,7 +30,7 @@ public class masterAdmin extends javax.swing.JPanel {
     /**
      * Creates new form masterAdmin
      */
-    public masterAdmin() {
+    public masterAdmin2() {
         initComponents();
         
         btnTambah.setVisible(true);
