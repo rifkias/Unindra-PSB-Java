@@ -34,6 +34,11 @@ public class MainMenu extends javax.swing.JFrame {
             panelAdmin.setVisible(false);
             queryCheckPendaftaran();
             initSiswaMenu();
+            
+            konten.removeAll();
+            konten.add(new DashboardSiswa(loginId,this));
+            konten.repaint();
+            konten.revalidate();
         }
         
         if(loginType.equals("admin")){
@@ -67,6 +72,7 @@ public class MainMenu extends javax.swing.JFrame {
         btnDataPendaftaran = new javax.swing.JButton();
         btnNilai = new javax.swing.JButton();
         btnTagihan = new javax.swing.JButton();
+        btnHomeSiswa = new javax.swing.JButton();
         konten = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -180,6 +186,11 @@ public class MainMenu extends javax.swing.JFrame {
         btnPendaftaran.setBorderPainted(false);
         btnPendaftaran.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btnPendaftaran.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        btnPendaftaran.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPendaftaranActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelAdminLayout = new javax.swing.GroupLayout(panelAdmin);
         panelAdmin.setLayout(panelAdminLayout);
@@ -227,11 +238,31 @@ public class MainMenu extends javax.swing.JFrame {
         btnNilai.setText("Nilai");
         btnNilai.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btnNilai.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        btnNilai.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNilaiActionPerformed(evt);
+            }
+        });
 
         btnTagihan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Cash.png"))); // NOI18N
         btnTagihan.setText("Tagihan");
         btnTagihan.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btnTagihan.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        btnTagihan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTagihanActionPerformed(evt);
+            }
+        });
+
+        btnHomeSiswa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Home.png"))); // NOI18N
+        btnHomeSiswa.setText("Home");
+        btnHomeSiswa.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnHomeSiswa.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        btnHomeSiswa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHomeSiswaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelSiswaLayout = new javax.swing.GroupLayout(panelSiswa);
         panelSiswa.setLayout(panelSiswaLayout);
@@ -242,19 +273,22 @@ public class MainMenu extends javax.swing.JFrame {
                 .addGroup(panelSiswaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnDataPendaftaran, javax.swing.GroupLayout.DEFAULT_SIZE, 228, Short.MAX_VALUE)
                     .addComponent(btnNilai, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnTagihan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnTagihan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnHomeSiswa, javax.swing.GroupLayout.DEFAULT_SIZE, 228, Short.MAX_VALUE))
                 .addContainerGap())
         );
         panelSiswaLayout.setVerticalGroup(
             panelSiswaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelSiswaLayout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(btnHomeSiswa)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnDataPendaftaran)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnNilai)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnTagihan)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(74, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout sidebarLayout = new javax.swing.GroupLayout(sidebar);
@@ -270,7 +304,7 @@ public class MainMenu extends javax.swing.JFrame {
                 .addComponent(panelAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(panelSiswa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 116, Short.MAX_VALUE))
+                .addGap(0, 44, Short.MAX_VALUE))
         );
 
         mainPanel.add(sidebar);
@@ -330,6 +364,38 @@ public class MainMenu extends javax.swing.JFrame {
         konten.repaint();
         konten.revalidate();
     }//GEN-LAST:event_btnDataPendaftaranActionPerformed
+
+    private void btnNilaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNilaiActionPerformed
+        // TODO add your handling code here:
+        konten.removeAll();
+        konten.add(new NilaiSiswa(idPendaftaran));
+        konten.repaint();
+        konten.revalidate();
+    }//GEN-LAST:event_btnNilaiActionPerformed
+
+    private void btnPendaftaranActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPendaftaranActionPerformed
+        // TODO add your handling code here:
+        konten.removeAll();
+        konten.add(new MasterPendaftaran(loginId));
+        konten.repaint();
+        konten.revalidate();
+    }//GEN-LAST:event_btnPendaftaranActionPerformed
+
+    private void btnHomeSiswaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHomeSiswaActionPerformed
+        // TODO add your handling code here:
+        konten.removeAll();
+        konten.add(new DashboardSiswa(loginId,this));
+        konten.repaint();
+        konten.revalidate();
+    }//GEN-LAST:event_btnHomeSiswaActionPerformed
+
+    private void btnTagihanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTagihanActionPerformed
+        // TODO add your handling code here:
+        konten.removeAll();
+        konten.add(new TagihanSiswa(idPendaftaran));
+        konten.repaint();
+        konten.revalidate();
+    }//GEN-LAST:event_btnTagihanActionPerformed
     public boolean queryCheckPendaftaran(){
         
         boolean res = false;
@@ -351,12 +417,24 @@ public class MainMenu extends javax.swing.JFrame {
         return res;
     }
     
+    public void showTagihan(){
+        konten.removeAll();
+        konten.add(new TagihanSiswa(idPendaftaran));
+        konten.repaint();
+        konten.revalidate();
+    }
+    
     public void initSiswaMenu(){
         if(idPendaftaran == 0){
             btnNilai.setVisible(false);
             btnTagihan.setVisible(false);
         }else{
             btnNilai.setVisible(true);
+            btnTagihan.setVisible(false);
+            
+            if(statusPendaftaran.equals("Diterima")){
+                btnTagihan.setVisible(true);
+            }
         }
     }
     public void test(){
@@ -401,6 +479,7 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JButton btnAdmin;
     private javax.swing.JButton btnDataPendaftaran;
     private javax.swing.JButton btnEskul;
+    private javax.swing.JButton btnHomeSiswa;
     private javax.swing.JButton btnJurusan;
     private javax.swing.JButton btnLogout;
     private javax.swing.JButton btnNilai;
