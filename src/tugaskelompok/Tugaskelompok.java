@@ -5,6 +5,7 @@
  */
 package tugaskelompok;
 
+import tampilan.Login;
 import tampilan.MainMenu;
 
 /**
@@ -18,7 +19,8 @@ public class Tugaskelompok {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        new MainMenu("admin", 1).setVisible(true);;
+//        new MainMenu("admin", 1).setVisible(true);
+        new Login().setVisible(true);
     }
     
 }
