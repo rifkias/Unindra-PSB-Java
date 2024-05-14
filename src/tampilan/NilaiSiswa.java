@@ -22,17 +22,26 @@ public class NilaiSiswa extends javax.swing.JPanel {
     private DefaultTableModel tabmode;
     private int selectedId;
     private int idPendaftaran;
+    private String statusPendaftaran;
     
     private int nilaiRataRata;
     private int totalNilai;
     /**
      * Creates new form masterJurusan
      */
-    public NilaiSiswa(int idPendaftaran) {
+    public NilaiSiswa(int idPendaftaran,String status) {
         initComponents();
         this.idPendaftaran = idPendaftaran;
         btnUpdate.setVisible(false);
         btnHapus.setVisible(false);
+        
+        this.statusPendaftaran = status;
+        
+        if(!statusPendaftaran.equals("Baru")){
+            btnUpdate.setVisible(false);
+            btnHapus.setVisible(false);
+            btnTambah.setVisible(false);
+        }
 //        btnReset.setVisible(false);
         this.initTable();
         
@@ -92,10 +101,17 @@ public class NilaiSiswa extends javax.swing.JPanel {
     public void reset(){
         namaTxt.setText("");
         nilaiTxt.setText("");
-        
-        btnTambah.setVisible(true);
-        btnUpdate.setVisible(false);
-        btnHapus.setVisible(false);
+        System.out.println(statusPendaftaran);
+        if(!statusPendaftaran.equals("Baru")){
+            btnUpdate.setVisible(false);
+            btnHapus.setVisible(false);
+            btnTambah.setVisible(false);
+        }else{
+            btnTambah.setVisible(true);
+            btnUpdate.setVisible(false);
+            btnHapus.setVisible(false);
+            
+        }
         
         tableJurusan.clearSelection();
         selectedId = 0;
@@ -373,7 +389,7 @@ public class NilaiSiswa extends javax.swing.JPanel {
         // TODO add your handling code here:
         int row = tableJurusan.getSelectedRow();
         
-        if(row != -1){
+        if(row != -1 && statusPendaftaran.equals("Baru")){
             if(selectedId > 0 && selectedId == Integer.valueOf(tableJurusan.getValueAt(row, 0).toString())){
                 this.reset();
             }else{

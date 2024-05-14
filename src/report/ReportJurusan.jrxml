@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isFloatColumnFooter="true" uuid="93bbd602-769a-4d41-a8be-7c3485102c86">
+	<property name="ireport.zoom" value="1.6105100000000017"/>
+	<property name="ireport.x" value="46"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[SELECT e.nama_jurusan AS nama_esktrakulikuler,e.keterangan,COUNT(p.id_pendaftaran) AS Total  FROM jurusan e LEFT JOIN pendaftaran p ON p.id_jurusan = e.id_jurusan GROUP BY e.id_jurusan]]>
+	</queryString>
+	<field name="nama_esktrakulikuler" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="keterangan" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Total" class="java.lang.Long"/>
+	<variable name="variable1" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{Total}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<rectangle>
+				<reportElement uuid="f6595e0e-57a8-4ae8-bf00-2e8368997f17" x="0" y="2" width="555" height="77" backcolor="#0E46A3"/>
+			</rectangle>
+			<staticText>
+				<reportElement uuid="875f98a6-8e15-40e2-bba5-9e99bb561a6f" x="0" y="2" width="555" height="33" forecolor="#FFFFFF"/>
+				<textElement textAlignment="Center">
+					<font size="24" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SMK TADIKA MESRA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="875f98a6-8e15-40e2-bba5-9e99bb561a6f" x="0" y="35" width="555" height="33" forecolor="#FFFFFF"/>
+				<textElement textAlignment="Center">
+					<font size="18" isBold="false"/>
+				</textElement>
+				<text><![CDATA[- Laporan Jurusan - ]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="46" splitType="Stretch">
+			<rectangle>
+				<reportElement uuid="b74bbdd9-ad6c-4f14-9e1e-b059ec2baa13" x="0" y="26" width="555" height="20" backcolor="#9AC8CD"/>
+			</rectangle>
+			<staticText>
+				<reportElement uuid="6cd3061b-cd3f-432c-9708-d458e39e1827" x="54" y="26" width="47" height="20"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[No]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6cd3061b-cd3f-432c-9708-d458e39e1827" x="100" y="26" width="154" height="20"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Nama Jurusan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6cd3061b-cd3f-432c-9708-d458e39e1827" x="254" y="26" width="144" height="20"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Keterangan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6cd3061b-cd3f-432c-9708-d458e39e1827" x="398" y="26" width="100" height="20"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="4d0aa04c-25fa-4d79-b274-98bed0de3fd9" x="53" y="26" width="1" height="20"/>
+			</line>
+			<line>
+				<reportElement uuid="4d0aa04c-25fa-4d79-b274-98bed0de3fd9" x="101" y="26" width="1" height="20"/>
+			</line>
+			<line>
+				<reportElement uuid="4d0aa04c-25fa-4d79-b274-98bed0de3fd9" x="253" y="26" width="1" height="20"/>
+			</line>
+			<line>
+				<reportElement uuid="4d0aa04c-25fa-4d79-b274-98bed0de3fd9" x="397" y="26" width="1" height="20"/>
+			</line>
+			<line>
+				<reportElement uuid="4d0aa04c-25fa-4d79-b274-98bed0de3fd9" x="497" y="26" width="1" height="20"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement uuid="0d8bcd0c-6578-4a94-9fed-d7d8e2ecc36d" x="54" y="0" width="48" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="5f2519b3-2267-4edd-bacc-ad35ae69e4ca" x="102" y="0" width="151" height="20"/>
+				<textElement textAlignment="Center">
+					<font isStrikeThrough="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nama_esktrakulikuler}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="5f2519b3-2267-4edd-bacc-ad35ae69e4ca" x="254" y="0" width="144" height="20"/>
+				<textElement textAlignment="Center">
+					<font isStrikeThrough="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{keterangan}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="5f2519b3-2267-4edd-bacc-ad35ae69e4ca" x="398" y="0" width="100" height="20"/>
+				<textElement textAlignment="Center">
+					<font isStrikeThrough="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Total}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="9f000c42-beff-45d7-b369-d4b67aa43c7a" x="254" y="0" width="144" height="20"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[Summary :      ]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="4c9f8457-7953-4dee-b95f-991864ccfc11" x="398" y="0" width="100" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$V{variable1}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="55" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

@@ -18,7 +18,7 @@ public class Tugaskelompok {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        new MainMenu("siswa", 3).setVisible(true);;
+        new MainMenu("admin", 1).setVisible(true);;
     }
     
 }

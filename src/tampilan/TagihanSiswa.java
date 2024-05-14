@@ -22,14 +22,19 @@ public class TagihanSiswa extends javax.swing.JPanel {
     private Connection conn = new koneksi().connect();
     private DefaultTableModel tabmode;
     private int pendaftaranId;
-    
+    private String statusPendaftaran;
     private int selectedId;
     /**
      * Creates new form TagihanSiswa
      */
-    public TagihanSiswa(int id) {
+    public TagihanSiswa(int id,String status) {
         initComponents();
         this.pendaftaranId = id;
+        this.statusPendaftaran = status;
+        
+        if(!statusPendaftaran.equals("Diterima")){
+            btnBayar1.setVisible(false);
+        }
         getDataPembayaran();
         
         btnBayar.setVisible(false);
@@ -112,6 +117,7 @@ public class TagihanSiswa extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableTagihan = new javax.swing.JTable();
+        btnBayar1 = new javax.swing.JButton();
         panelForm = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         mainPanel = new javax.swing.JPanel();
@@ -168,6 +174,14 @@ public class TagihanSiswa extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(tableTagihan);
 
+        btnBayar1.setText("Bayar Semua");
+        btnBayar1.setToolTipText("");
+        btnBayar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBayar1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelTableLayout = new javax.swing.GroupLayout(panelTable);
         panelTable.setLayout(panelTableLayout);
         panelTableLayout.setHorizontalGroup(
@@ -175,14 +189,15 @@ public class TagihanSiswa extends javax.swing.JPanel {
             .addGroup(panelTableLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(panelTableLayout.createSequentialGroup()
-                            .addComponent(jLabel2)
-                            .addGap(0, 585, Short.MAX_VALUE))
-                        .addGroup(panelTableLayout.createSequentialGroup()
-                            .addComponent(btnBayar)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(sisaTagihan)))
+                    .addGroup(panelTableLayout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(0, 585, Short.MAX_VALUE))
+                    .addGroup(panelTableLayout.createSequentialGroup()
+                        .addComponent(btnBayar1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnBayar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(sisaTagihan))
                     .addComponent(jScrollPane1))
                 .addContainerGap())
         );
@@ -193,7 +208,9 @@ public class TagihanSiswa extends javax.swing.JPanel {
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(panelTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnBayar, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(panelTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnBayar, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnBayar1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(sisaTagihan))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -344,7 +361,7 @@ public class TagihanSiswa extends javax.swing.JPanel {
         // TODO add your handling code here:
         int row = tableTagihan.getSelectedRow();
 
-        if(row != -1){
+        if(row != -1 && statusPendaftaran.equals("Diterima")){
             if(selectedId > 0 && selectedId == Integer.valueOf(tableTagihan.getValueAt(row, 0).toString())){
                 this.reset();
             }else{
@@ -413,6 +430,25 @@ public class TagihanSiswa extends javax.swing.JPanel {
         this.moveToTable();
         this.reset();
     }//GEN-LAST:event_backBtnActionPerformed
+
+    private void btnBayar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBayar1ActionPerformed
+        // TODO add your handling code here:
+        int res = JOptionPane.showConfirmDialog(null, "Apakah Anda Sudah Membayar Semua Tagihan ?","Warning",JOptionPane.YES_NO_OPTION);
+        
+        if(res == JOptionPane.YES_OPTION){
+            String sql = "UPDATE tagihan SET dibayar = biaya WHERE id_pendaftaran=?";
+             try {
+                PreparedStatement stat = conn.prepareStatement(sql);
+                stat.setInt(1, pendaftaranId);
+                stat.executeUpdate();
+                JOptionPane.showMessageDialog(null, "Data Berhasil DiUpdate");
+                getDataPembayaran();
+                checkDataPembayaran();
+             }catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "Data Gagal Disimpan: " + e.getMessage());
+            }
+        }
+    }//GEN-LAST:event_btnBayar1ActionPerformed
 
     public void update(){
         String sql = "UPDATE tagihan SET dibayar=? WHERE id_tagihan=?";
@@ -497,6 +533,7 @@ public class TagihanSiswa extends javax.swing.JPanel {
     private javax.swing.JButton backBtn;
     private javax.swing.JTextField biayaTxt;
     private javax.swing.JButton btnBayar;
+    private javax.swing.JButton btnBayar1;
     private javax.swing.JButton btnFormSave;
     private javax.swing.JPanel cardLayout;
     private javax.swing.JTextField dibayarTxt;

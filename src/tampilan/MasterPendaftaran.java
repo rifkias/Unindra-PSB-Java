@@ -1515,10 +1515,11 @@ public class MasterPendaftaran extends javax.swing.JPanel {
             int res = JOptionPane.showConfirmDialog(null, "Apakah Anda Sudah Yakin ?","Warning",JOptionPane.YES_NO_OPTION);
         
             if(res == JOptionPane.YES_OPTION){
-                String sql = "UPDATE PENDAFTARAN SET status = 'Selesai' WHERE id_pendaftaran = ?";
+                String sql = "UPDATE PENDAFTARAN SET status = 'Selesai', approval_by=? WHERE id_pendaftaran = ?";
                 try {
                     PreparedStatement stat = conn.prepareStatement(sql);
-                    stat.setInt(1, selectedId);
+                    stat.setInt(1, loginId);
+                    stat.setInt(2, selectedId);
 
                     int rowsAffected = stat.executeUpdate();
 

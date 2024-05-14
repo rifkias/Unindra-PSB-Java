@@ -175,7 +175,7 @@ public class Login extends javax.swing.JFrame {
             .addGroup(headerPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 242, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 197, Short.MAX_VALUE)
                 .addComponent(btnUserLogin)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnAdminLogin)
@@ -226,7 +226,7 @@ public class Login extends javax.swing.JFrame {
         jLabel11.setFont(new java.awt.Font("Source Sans Pro", 1, 24)); // NOI18N
         jLabel11.setText("Login Siswa");
 
-        jLabel14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/logo.png"))); // NOI18N
+        jLabel14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/logo beneran-login.png"))); // NOI18N
 
         javax.swing.GroupLayout siswaLoginLayout = new javax.swing.GroupLayout(siswaLogin);
         siswaLogin.setLayout(siswaLoginLayout);
@@ -257,7 +257,7 @@ public class Login extends javax.swing.JFrame {
                             .addComponent(jLabel3)
                             .addComponent(usernameInputSiswa)
                             .addComponent(passwordInputSiswa, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(190, Short.MAX_VALUE))
+                .addContainerGap(145, Short.MAX_VALUE))
         );
         siswaLoginLayout.setVerticalGroup(
             siswaLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -283,7 +283,7 @@ public class Login extends javax.swing.JFrame {
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel5)
-                .addContainerGap(66, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         contentPanel.add(siswaLogin, "card2");
@@ -487,7 +487,7 @@ public class Login extends javax.swing.JFrame {
                     .addGroup(siswaRegisterLayout.createSequentialGroup()
                         .addGap(188, 188, 188)
                         .addComponent(jLabel22)))
-                .addContainerGap(158, Short.MAX_VALUE))
+                .addContainerGap(113, Short.MAX_VALUE))
         );
         siswaRegisterLayout.setVerticalGroup(
             siswaRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -540,7 +540,7 @@ public class Login extends javax.swing.JFrame {
                                 .addComponent(jLabel9)
                                 .addComponent(usernameInputAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(190, Short.MAX_VALUE))
+                .addContainerGap(145, Short.MAX_VALUE))
         );
         adminLoginLayout.setVerticalGroup(
             adminLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
