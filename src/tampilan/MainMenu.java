@@ -477,7 +477,7 @@ public class MainMenu extends javax.swing.JFrame {
     private void btnDataPendaftaranActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDataPendaftaranActionPerformed
         // TODO add your handling code here:
         konten.removeAll();
-        konten.add(new pendaftaranSiswa(loginId));
+        konten.add(new pendaftaranSiswa(loginId,this));
         konten.repaint();
         konten.revalidate();
     }//GEN-LAST:event_btnDataPendaftaranActionPerformed
@@ -584,7 +584,7 @@ public class MainMenu extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnPendaftaran5ActionPerformed
     public boolean queryCheckPendaftaran(){
-        
+        System.out.println("Triggered 2");
         boolean res = false;
         String sql = "SELECT * FROM pendaftaran p WHERE id_siswa = '"+ loginId +"' limit 1";
         
@@ -612,6 +612,7 @@ public class MainMenu extends javax.swing.JFrame {
     }
     
     public void initSiswaMenu(){
+        System.out.println("Triggered 1");
         if(idPendaftaran == 0){
             btnNilai.setVisible(false);
             btnTagihan.setVisible(false);

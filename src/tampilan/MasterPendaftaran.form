@@ -66,6 +66,8 @@
                                       <Component id="btnTolakPendaftaran" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Component id="btnTolakPembayaran" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="btnKembalikan" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
@@ -88,6 +90,7 @@
                           <Component id="btnTerimaPembayaran" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="btnTolakPendaftaran" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="btnTolakPembayaran" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnKembalikan" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
@@ -199,6 +202,14 @@
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnTolakPembayaranActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="btnKembalikan">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Kembalikan Pendaftaran"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnKembalikanActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>
@@ -904,6 +915,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Terima Pendaftaran"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnTerimaPendaftaranFormActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnTagihanForm">
               <Properties>

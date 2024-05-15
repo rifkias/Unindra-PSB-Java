@@ -32,12 +32,15 @@ public class pendaftaranSiswa extends javax.swing.JPanel {
     private int idPendaftaran;
     private int IdSiswa;
     private final SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhms");
+    private String statusPendaftaran;
+    private MainMenu panelMenu;
     /**
      * Creates new form pendaftaranSiswa
      */
-    public pendaftaranSiswa(int idSiswa) {
+    public pendaftaranSiswa(int idSiswa,MainMenu panel) {
         initComponents();
         IdSiswa = idSiswa;
+        panelMenu = panel;
         this.initEskul();
         this.initJurusan();
         this.checkPendaftaran();
@@ -127,7 +130,11 @@ public class pendaftaranSiswa extends javax.swing.JPanel {
     public void checkPendaftaran(){
         if(queryCheckPendaftaran()){
             // Has Saved Before
-            btnUpdate.setVisible(true);
+            if(statusPendaftaran.equals("Baru")){
+                btnUpdate.setVisible(true);
+            }else{
+                btnUpdate.setVisible(false);
+            }
             btnSave.setVisible(false);
         }else{
             // Never Save Register
@@ -157,7 +164,7 @@ public class pendaftaranSiswa extends javax.swing.JPanel {
                 comboJurusan.setSelectedItem(rs.getString("nama_jurusan"));
                 nomorIjazahTxt.setText(rs.getString("no_ijazah"));
                 idPendaftaran = rs.getInt("id_pendaftaran");
-                
+                statusPendaftaran = rs.getString("status");
                 int isEskul = rs.getInt("is_eskul");
                 
                 if(isEskul == 0){
@@ -166,6 +173,7 @@ public class pendaftaranSiswa extends javax.swing.JPanel {
                 if(isEskul == 1){
                     isEskulYes.setSelected(true);
                 }
+                
                 
             }
         }catch (SQLException e){
@@ -493,7 +501,8 @@ public class pendaftaranSiswa extends javax.swing.JPanel {
                
                 stat.executeUpdate();
                 JOptionPane.showMessageDialog(null, "Data Berhasil Ditambahkan");
-                
+                this.panelMenu.queryCheckPendaftaran();
+                this.panelMenu.initSiswaMenu();
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(null, "Data Gagal Disimpan: " + e.getMessage());
             }
@@ -565,6 +574,8 @@ public class pendaftaranSiswa extends javax.swing.JPanel {
                
                 stat.executeUpdate();
                 JOptionPane.showMessageDialog(null, "Data Berhasil Diubah");
+                this.panelMenu.queryCheckPendaftaran();
+                this.panelMenu.initSiswaMenu();
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(null, "Data Gagal Disimpan: " + e.getMessage());
             }

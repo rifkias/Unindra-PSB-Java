@@ -40,6 +40,7 @@ public class MasterPendaftaran extends javax.swing.JPanel {
         this.btnTerimaPembayaran.setVisible(false);
         this.btnTolakPembayaran.setVisible(false);
         this.btnTolakPendaftaran.setVisible(false);
+        this.btnKembalikan.setVisible(false);
     }
     
     public void initTable(){
@@ -193,6 +194,7 @@ public class MasterPendaftaran extends javax.swing.JPanel {
         btnTerimaPembayaran = new javax.swing.JButton();
         btnTolakPendaftaran = new javax.swing.JButton();
         btnTolakPembayaran = new javax.swing.JButton();
+        btnKembalikan = new javax.swing.JButton();
         panelForm = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         boxPanel = new javax.swing.JPanel();
@@ -347,6 +349,13 @@ public class MasterPendaftaran extends javax.swing.JPanel {
             }
         });
 
+        btnKembalikan.setText("Kembalikan Pendaftaran");
+        btnKembalikan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnKembalikanActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelTableLayout = new javax.swing.GroupLayout(panelTable);
         panelTable.setLayout(panelTableLayout);
         panelTableLayout.setHorizontalGroup(
@@ -375,7 +384,9 @@ public class MasterPendaftaran extends javax.swing.JPanel {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnTolakPendaftaran)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnTolakPembayaran)))
+                                .addComponent(btnTolakPembayaran)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnKembalikan)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -391,7 +402,8 @@ public class MasterPendaftaran extends javax.swing.JPanel {
                     .addComponent(btnTagihan)
                     .addComponent(btnTerimaPembayaran)
                     .addComponent(btnTolakPendaftaran)
-                    .addComponent(btnTolakPembayaran))
+                    .addComponent(btnTolakPembayaran)
+                    .addComponent(btnKembalikan))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(panelTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
@@ -773,6 +785,11 @@ public class MasterPendaftaran extends javax.swing.JPanel {
         });
 
         btnTerimaPendaftaranForm.setText("Terima Pendaftaran");
+        btnTerimaPendaftaranForm.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTerimaPendaftaranFormActionPerformed(evt);
+            }
+        });
 
         btnTagihanForm.setText("Data Tagihan");
         btnTagihanForm.addActionListener(new java.awt.event.ActionListener() {
@@ -1028,6 +1045,7 @@ public class MasterPendaftaran extends javax.swing.JPanel {
                 
                 if(status.equals("Dikirim")){
                     btnTolakPendaftaran.setVisible(true);
+                    btnKembalikan.setVisible(true);
                 }
                 
                 if(status.equals("Validasi Pembayaran")){
@@ -1218,33 +1236,54 @@ public class MasterPendaftaran extends javax.swing.JPanel {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-//        String search = "'%"+searchTxt.getText()+"%'";
-//        Object[] Baris={"Id","Nama","Jenis Kelamin","Agama","Golongan Darah","Tanggal Lahir","Tempat Lahir","NISN","No. Telp","Email"};
-//        tabmode = new DefaultTableModel(null, Baris);
-//        tableSiswa.setModel(tabmode);
-//
-//        String sql = "SELECT * FROM siswa WHERE nama LIKE " +search+" OR nisn LIKE "+search;
-//        try{
-//            java.sql.Statement stat = conn.createStatement();
-//            ResultSet hasil = stat.executeQuery(sql);
-//            while(hasil.next()){
-//                int a = hasil.getInt("id_siswa");
-//                String b = hasil.getString("nama");
-//                String c = hasil.getString("jenis_kelamin");
-//                String d = hasil.getString("agama");
-//                String e = hasil.getString("golongan_darah");
-//                String f = hasil.getString("tanggal_lahir");
-//                String g = hasil.getString("tempat_lahir");
-//                String h = hasil.getString("nisn");
-//                String i = hasil.getString("nomor_telpon");
-//                String j = hasil.getString("email");
-//
-//                Object[] data={a,b,c,d,e,f,g,h,i,j};
-//                tabmode.addRow(data);
-//            }
-//        }catch (SQLException e){
-//            e.printStackTrace();
-//        }
+        String search = "'%"+searchTxt.getText()+"%'";
+
+        Object[] Baris={"Id","Nama Siswa","NISN","No Pendaftaran","Nama Jurusan","Pilihan Eskul","Status","Nilai Rata - Rata",};
+        tabmode = new DefaultTableModel(null, Baris);
+        dataTable.setModel(tabmode);   
+        
+        String sql = "SELECT \n" +
+            "	j.nama_jurusan, \n" +
+            "	e.nama_esktrakulikuler, \n" +
+            "	s.nama AS nama_siswa,\n" +
+            "	s.nisn AS nisn,\n" +
+            "	p.id_pendaftaran,\n" +
+            "	p.no_pendaftaran, \n" +
+            "	p.status,\n" +
+            "	COUNT(n.id_nilai) AS jumlah_nilai,\n" +
+            "	SUM(n.nilai) AS total_nilai,\n" +
+            "	(SUM(n.nilai)/COUNT(n.id_nilai)) AS rataRata\n" +
+            "	\n" +
+            "FROM pendaftaran p \n" +
+            "LEFT JOIN jurusan j \n" +
+            "	ON p.id_jurusan = j.id_jurusan \n" +
+            "LEFT JOIN ekstrakulikuler e \n" +
+            "	ON p.eskul_id = e.id_ekstrakulikuler\n" +
+            "LEFT JOIN siswa s \n" +
+            "	ON p.id_siswa = s.id_siswa\n" +
+            "LEFT JOIN nilai n \n" +
+            "	ON p.id_pendaftaran = n.id_pendaftaran\n" +
+            " WHERE p.no_pendaftaran LIKE "+search+" OR s.nama LIKE "+search+
+            "GROUP BY j.nama_jurusan,e.nama_esktrakulikuler,s.nama,s.nisn,p.id_pendaftaran";
+        try{
+            java.sql.Statement stat = conn.createStatement();
+            ResultSet hasil = stat.executeQuery(sql);
+            while(hasil.next()){
+                int a = hasil.getInt("id_pendaftaran");
+                String b = hasil.getString("nama_siswa");
+                String c = hasil.getString("nisn");
+                String d = hasil.getString("no_pendaftaran");
+                String e = hasil.getString("nama_jurusan");
+                String f = hasil.getString("nama_esktrakulikuler");
+                String g = hasil.getString("status");
+                String h = hasil.getString("rataRata");
+
+                Object[] data={a,b,c,d,e,f,g,h};
+                tabmode.addRow(data);
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
 
     }//GEN-LAST:event_jButton3ActionPerformed
 
@@ -1406,6 +1445,36 @@ public class MasterPendaftaran extends javax.swing.JPanel {
         this.tolakPembayaran();
     }//GEN-LAST:event_btnTolakPembayaranActionPerformed
 
+    private void btnTerimaPendaftaranFormActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTerimaPendaftaranFormActionPerformed
+        // TODO add your handling code here:
+        this.sendTagihan();
+    }//GEN-LAST:event_btnTerimaPendaftaranFormActionPerformed
+
+    private void btnKembalikanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKembalikanActionPerformed
+        // TODO add your handling code here:
+         int res = JOptionPane.showConfirmDialog(null, "Apakah Anda Sudah Yakin ?","Warning",JOptionPane.YES_NO_OPTION);
+        
+            if(res == JOptionPane.YES_OPTION){
+                String sql = "UPDATE PENDAFTARAN SET status = 'Baru' WHERE id_pendaftaran = ?";
+                try {
+                    PreparedStatement stat = conn.prepareStatement(sql);
+                    stat.setInt(1, selectedId);
+
+                    int rowsAffected = stat.executeUpdate();
+
+                    if (rowsAffected > 0) {
+                        JOptionPane.showMessageDialog(null, "Data Berhasil Diubah");
+                        initTable();
+                        moveToTable();
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Data Tidak Ditemukan");
+                    }
+                } catch (SQLException e) {
+                    JOptionPane.showMessageDialog(null, "Data Gagal Dihapus: " + e.getMessage());
+                }
+            }
+    }//GEN-LAST:event_btnKembalikanActionPerformed
+
     
     public void tolakPembayaran(){
         int res = JOptionPane.showConfirmDialog(null, "Apakah Anda Sudah Yakin ?","Warning",JOptionPane.YES_NO_OPTION);
@@ -1557,6 +1626,7 @@ public class MasterPendaftaran extends javax.swing.JPanel {
     private javax.swing.JTextField biayaTagihanTxt;
     private javax.swing.JPanel boxPanel;
     private javax.swing.JButton btnDetail;
+    private javax.swing.JButton btnKembalikan;
     private javax.swing.JButton btnSaveTagihan;
     private javax.swing.JButton btnTagihan;
     private javax.swing.JButton btnTagihanForm;

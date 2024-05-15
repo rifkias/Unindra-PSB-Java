@@ -61,6 +61,8 @@ public class DashboardSiswa extends javax.swing.JPanel {
                     getDataTagihan();
                     
                 }
+            }else{
+                btnKirim.setVisible(false);
             }
         }catch (SQLException e){
             e.printStackTrace();
@@ -102,6 +104,26 @@ public class DashboardSiswa extends javax.swing.JPanel {
         }catch (SQLException e){
             e.printStackTrace();
         }
+    }
+    
+    private boolean checkNilai(){
+        boolean res = false;
+        String sql = "SELECT COUNT(*) as total FROM nilai WHERE id_pendaftaran='"+pendaftaranId+"'";
+        try{
+            java.sql.Statement stat = conn.createStatement();
+            ResultSet hasil = stat.executeQuery(sql);
+            if(hasil.next()){
+                if(hasil.getInt("total") > 0){
+                    res = true;
+                }
+            }else{
+                res = false;
+            }
+        }catch (SQLException e){
+            res = false;
+            e.printStackTrace();
+        }
+        return res;
     }
     
 
@@ -199,41 +221,51 @@ public class DashboardSiswa extends javax.swing.JPanel {
         int res = JOptionPane.showConfirmDialog(null, "Apakah Anda Sudah Yakin ?","Warning",JOptionPane.YES_NO_OPTION);
         
         if(res == JOptionPane.YES_OPTION){
-            String sql = "UPDATE PENDAFTARAN SET status = 'Dikirim' WHERE id_pendaftaran = ?";
-            try {
-                PreparedStatement stat = conn.prepareStatement(sql);
-                stat.setInt(1, pendaftaranId);
+            Boolean checkNilai = this.checkNilai();
+            if(checkNilai){
+                String sql = "UPDATE PENDAFTARAN SET status = 'Dikirim' WHERE id_pendaftaran = ?";
+                try {
+                    PreparedStatement stat = conn.prepareStatement(sql);
+                    stat.setInt(1, pendaftaranId);
 
-                int rowsAffected = stat.executeUpdate();
+                    int rowsAffected = stat.executeUpdate();
 
-                if (rowsAffected > 0) {
-                    JOptionPane.showMessageDialog(null, "Data Berhasil Diubah");
-                    getDataPendaftaran();
-                } else {
-                    JOptionPane.showMessageDialog(null, "Data Tidak Ditemukan");
+                    if (rowsAffected > 0) {
+                        JOptionPane.showMessageDialog(null, "Data Berhasil Diubah");
+                        getDataPendaftaran();
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Data Tidak Ditemukan");
+                    }
+                } catch (SQLException e) {
+                    JOptionPane.showMessageDialog(null, "Data Gagal Dihapus: " + e.getMessage());
                 }
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, "Data Gagal Dihapus: " + e.getMessage());
+            }else{
+                JOptionPane.showMessageDialog(null, "Data Nilai Kosong");
             }
         }
     }//GEN-LAST:event_btnKirimActionPerformed
 
+    
     private void btnCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCheckActionPerformed
         // TODO add your handling code here:
-        if(statusPendaftaran.equals("Baru")){
-            JOptionPane.showMessageDialog(null, "Status Pendaftaran Anda Saat ini adalah 'BARU', Silahkan Kirimkan Data Pendaftaran Setelah Mengisi Semua Data");
-        }else if(statusPendaftaran.equals("Dikirim")){
-           JOptionPane.showMessageDialog(null, "Status Pendaftaran Anda Saat ini adalah 'DIKIRM', Silahkan Tunggu Admin Kami Mengecek Data Yang Ada Kirimkan"); 
-        }else if(statusPendaftaran.equals("Diterima")){
-            JOptionPane.showMessageDialog(null, "Status Pendaftaran Anda Saat ini adalah 'DITERIMA', Silahkan Lakukan Pembayaran Pada Menu Tagihan.");
-        }else if(statusPendaftaran.equals("Validasi Pembayaran")){
-            JOptionPane.showMessageDialog(null, "Status Pendaftaran Anda Saat ini adalah 'VALIDASI PEMBAYARAN', Silahkan Tunggu Admin Kami Mengecek Pembayaran Anda.");
-        }else if(statusPendaftaran.equals("Selesai")){
-            JOptionPane.showMessageDialog(null, "Status Pendaftaran Anda Saat ini adalah 'SELESAI', Selamat Anda Sudah Diterima Menjadi Siswa Disekolah Kami....");
-        }else if(statusPendaftaran.equals("Ditolak")){
-            JOptionPane.showMessageDialog(null, "Mohon Maaf Pendaftaran Anda Kami 'Tolak', Tetap Semangat dan Semoga Sukses DiSekolah Lain :D ");
+        if(statusPendaftaran != null){
+            if(statusPendaftaran.equals("Baru")){
+                JOptionPane.showMessageDialog(null, "Status Pendaftaran Anda Saat ini adalah 'BARU', Silahkan Kirimkan Data Pendaftaran Setelah Mengisi Semua Data");
+            }else if(statusPendaftaran.equals("Dikirim")){
+               JOptionPane.showMessageDialog(null, "Status Pendaftaran Anda Saat ini adalah 'DIKIRM', Silahkan Tunggu Admin Kami Mengecek Data Yang Ada Kirimkan"); 
+            }else if(statusPendaftaran.equals("Diterima")){
+                JOptionPane.showMessageDialog(null, "Status Pendaftaran Anda Saat ini adalah 'DITERIMA', Silahkan Lakukan Pembayaran Pada Menu Tagihan.");
+            }else if(statusPendaftaran.equals("Validasi Pembayaran")){
+                JOptionPane.showMessageDialog(null, "Status Pendaftaran Anda Saat ini adalah 'VALIDASI PEMBAYARAN', Silahkan Tunggu Admin Kami Mengecek Pembayaran Anda.");
+            }else if(statusPendaftaran.equals("Selesai")){
+                JOptionPane.showMessageDialog(null, "Status Pendaftaran Anda Saat ini adalah 'SELESAI', Selamat Anda Sudah Diterima Menjadi Siswa Disekolah Kami....");
+            }else if(statusPendaftaran.equals("Ditolak")){
+                JOptionPane.showMessageDialog(null, "Mohon Maaf Pendaftaran Anda Kami 'Tolak', Tetap Semangat dan Semoga Sukses DiSekolah Lain :D ");
+            }else{
+                JOptionPane.showMessageDialog(null, statusPendaftaran);
+            }
         }else{
-            JOptionPane.showMessageDialog(null, statusPendaftaran);
+                JOptionPane.showMessageDialog(null, "Silahkan Isi Data Pendaftaran ");
         }
     }//GEN-LAST:event_btnCheckActionPerformed
 
